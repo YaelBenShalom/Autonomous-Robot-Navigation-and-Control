@@ -25,10 +25,10 @@ I used several components to control the robot motion:
 4. Led matrix - Indicates mission number and mission success/fail
 
 The system components:
-![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/master/images/project4_system_explanation.png)
+![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/project4_system_explanation.png)
 
 Arduino pin usage:
-![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/master/images/project4_pin_use.png)
+![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/project4_pin_use.png)
 
 The autonomous vehicle:
-![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/master/images/vehicle.png)
+![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/vehicle.png)
