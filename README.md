@@ -31,4 +31,4 @@ Arduino pin usage:
 ![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/project4_pin_use.png)
 
 The autonomous vehicle:
-![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/vehicle.png)
+![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/vehicle.jpg)
