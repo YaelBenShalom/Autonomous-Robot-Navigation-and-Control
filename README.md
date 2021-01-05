@@ -7,7 +7,7 @@ In this project, I build a wheeled robot and programmed it to navigate autonomou
 ### The Tasks
 1. Navigating through a maze
 2. Driving through changing-slope way, keeping constant roll
-3. following curved wall, keeping constant distance
+3. Following curved wall, keeping constant distance
 4. Driving on slope with changing gradient, keeping constant speed
 5. Locating and reaching the finish line flag
 
