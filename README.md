@@ -1,10 +1,20 @@
 # Autonomous-Robot-Navigation-and-Control
-GitHub repository - https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control
+
+
+## Table of Contents
+
+- [Description](#description)
+- [Overview](#overview)
+    - [Tasks](#tasks)
+    - [System Description](#system-description)
+
+
+## Description
+In this project, I build a wheeled robot and programmed it to navigate autonomously through a series of tasks, using Arduino, motors, encoders and distance sensors.
 
 ## Overview
-In this project, I build a wheeled robot and programmed it to navigate autonomously through a series of tasks, Using Arduino, motors, encoders and distance sensors.
 
-### The Tasks
+### Tasks
 1. Navigating through a maze
 2. Driving through changing-slope way, keeping constant roll
 3. Following curved wall, keeping constant distance
@@ -25,10 +35,16 @@ I used several components to control the robot motion:
 4. Led matrix - Indicates mission number and mission success/fail
 
 The system components:
-![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/project4_system_explanation.png)
+    <p align="center">
+        <img align="center" src="https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/project4_system_explanation.png" width="75%">
+    </p>
 
 Arduino pin usage:
-![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/project4_pin_use.png)
+    <p align="center">
+        <img align="center" src="https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/project4_pin_use.png" width="60%">
+    </p>
 
 The autonomous vehicle:
-![system_explanation](https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/vehicle.jpg)
+    <p align="center">
+        <img align="center" src="https://github.com/YaelBenShalom/Autonomous-Robot-Navigation-and-Control/blob/main/images/vehicle.jpg" width="60%">
+    </p>
