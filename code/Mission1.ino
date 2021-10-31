@@ -1,4 +1,15 @@
+#include <LEDMatrixDriver.hpp>
+#include <SPI.h>
+#include <Servo.h>
+#include <TimerOne.h>
+#include <TimerThree.h>
+#include <VL53L0X.h>
+#include <Wire.h>
+#include <math.h>
+
 void Mission_1() {
+  /// Code for mission 1
+
   Start_Mission((byte *)&LedMatrix_Mission_1, 0, 0, 8, 8);
   ReadSensors();
   cur_dist = IR_Left_Distance;
@@ -10,6 +21,7 @@ void Mission_1() {
     Serial.print("LEFT ");
     Serial.println(TOF_Distance_Left);
     Serial.println(US_Distance_Read);
+
     Stop(); // Function that stops the robot
     delay(500);
     if (US_Distance_Read < 20) { // Checks ,mission end term
@@ -18,7 +30,7 @@ void Mission_1() {
       Mission_Number += 1; // Mission counter up
     } else {               // Continue Mission
       Serial.println("start map");
-      map_environment(); // Using sensor read to analize the surrounding
+      map_environment(); // Using sensor read to analyze the surrounding
       Serial.print("close front ");
       Serial.println(close_front);
       Serial.print("close left ");
@@ -82,9 +94,9 @@ void maze_step() { // Function decides how to move the robot considering the
     delay(100);
     Turn_Right_In_Angle(90);
     Serial.println("Turning right 90");
-  } else if (close_front) { // If not in corner but close to wall infront, turn
+  } else if (close_front) { // If not in corner but close to wall in front, turn
                             // 90 deg right
-    Serial.println("wall infront");
+    Serial.println("wall in front");
     Stop();
     if (TOF_Distance_Left > TOF_Distance_Right) {
       Turn_Left_In_Angle(90);

@@ -52,13 +52,14 @@ float last_dist;
 float err_dist;
 
 bool close_left;  // If robot is too close to the wall to the left
-bool close_front; // If robot is too close to the wall infront
+bool close_front; // If robot is too close to the wall in front
 bool corner; // If robot is in a corner (wall to the left and front) value is
              // TRUE
 bool wall_follow_pos; // If robot is located good to follow wall value is TRUE
 bool wall_end;        // If no wall to the left and in front
 
 ///////////////////  Initialize variables  ///////////////////
+
 const float Pi = 3.14;
 int Mission_Number = 4; // Initialize mission counter
 
@@ -86,35 +87,29 @@ volatile uint16_t dist_cntr;      // Setup encoder counter
 volatile bool Motor_Flag_Counter; // Setup counter flag variables
 bool Motor_Flag;                  // Setup counter flag variables
 
-byte LedMatrix_Mission_1[8] = {
-    B00000000, // Visual indication for start of mission 1
-    B00000100, B00000100, B00000100, B00000100,
-    B00000100, B00000000, B00000000};
+// Visual indication for start of mission 1
+byte LedMatrix_Mission_1[8] = {B00000000, B00000100, B00000100, B00000100,
+                               B00000100, B00000100, B00000000, B00000000};
 
-byte LedMatrix_Mission_2[8] = {
-    B00000000, // Visual indication for start of mission 2
-    B00111100, B00000100, B00111100, B00100000,
-    B00111100, B00000000, B00000000};
+// Visual indication for start of mission 2
+byte LedMatrix_Mission_2[8] = {B00000000, B00111100, B00000100, B00111100,
+                               B00100000, B00111100, B00000000, B00000000};
 
-byte LedMatrix_Mission_3[8] = {
-    B00000000, // Visual indication for start of mission 3
-    B00111100, B00000100, B00111100, B00000100,
-    B00111100, B00000000, B00000000};
+// Visual indication for start of mission 3
+byte LedMatrix_Mission_3[8] = {B00000000, B00111100, B00000100, B00111100,
+                               B00000100, B00111100, B00000000, B00000000};
 
-byte LedMatrix_Mission_4[8] = {
-    B00000000, // Visual indication for start of mission 4
-    B00100100, B00100100, B00111100, B00000100,
-    B00000100, B00000000, B00000000};
+// Visual indication for start of mission 4
+byte LedMatrix_Mission_4[8] = {B00000000, B00100100, B00100100, B00111100,
+                               B00000100, B00000100, B00000000, B00000000};
 
-byte LedMatrix_Mission_5[8] = {
-    B00000000, // Visual indication for start of mission 5
-    B00111100, B00100000, B00111100, B00000100,
-    B00111100, B00000000, B00000000};
+// Visual indication for start of mission 5
+byte LedMatrix_Mission_5[8] = {B00000000, B00111100, B00100000, B00111100,
+                               B00000100, B00111100, B00000000, B00000000};
 
-byte LedMatrix_Mission_Smile[8] = {
-    B00000000, // Visual indication for end of mission 1
-    B01000010, B00000000, B00000000, B10000001,
-    B01000010, B00111100, B00000000};
+// Visual indication for end of mission 1
+byte LedMatrix_Mission_Smile[8] = {B00000000, B01000010, B00000000, B00000000,
+                                   B10000001, B01000010, B00111100, B00000000};
 
 void Mission_1();
 void Mission_2();
@@ -122,9 +117,9 @@ void Mission_3();
 void Mission_4();
 void Mission_5();
 typedef void (*Mission_Function)();
+// Mission array for main loop
 Mission_Function Mission_Array[5] = {
-    &Mission_1, // Mission array for main loop
-    &Mission_2, &Mission_3, &Mission_4, &Mission_5,
+    &Mission_1, &Mission_2, &Mission_3, &Mission_4, &Mission_5,
 };
 
 void setup() {
@@ -152,11 +147,12 @@ void setup() {
   pinMode(US_Distance, INPUT); // Returns distance from top (US sensor)
 
   Servo_Motor.attach(9);
-  attachInterrupt(digitalPinToInterrupt(Encoder), dist_counter,
-                  RISING); // Define interrupt to measure distance advancement
-  attachInterrupt(digitalPinToInterrupt(Button), Skip_Mission,
-                  FALLING);  // Define interrupt on button pin
-  MPU9250ReadAngles_Setup(); // Initialize and calibrate sensor
+  // Define interrupt to measure distance advancement
+  attachInterrupt(digitalPinToInterrupt(Encoder), dist_counter, RISING);
+  // Define interrupt on button pin
+  attachInterrupt(digitalPinToInterrupt(Button), Skip_Mission, FALLING);
+  // Initialize and calibrate sensor
+  MPU9250ReadAngles_Setup();
 
   TOF_Sensor.init();
   TOF_Sensor.setTimeout(500);
@@ -166,28 +162,33 @@ void setup() {
 void loop() {
   Serial.println("Start Mission");
   delay(3000);
-  Mission_Array[Mission_Number -
-                1](); // Use mission array to activate the current mission
+  // Use mission array to activate the current mission
+  Mission_Array[Mission_Number - 1]();
   Serial.println("Mission done");
 }
 
 ///////////////// Motion functions /////////////////
-void Move_Forwards(float Speed) { // Function for movind forwards
+
+// Function for movind forwards
+void Move_Forwards(float Speed) {
+  convertion_const = 1023 / 100.0;
   digitalWrite(DIR_Right, HIGH);
   digitalWrite(DIR_Left, HIGH);
-  Timer3.pwm(PWM_Right, (Speed / 100.0) * 1023);
-  Timer3.pwm(PWM_Left, (Speed / 100.0) * 1023);
+  Timer3.pwm(PWM_Right, Speed * convertion_const);
+  Timer3.pwm(PWM_Left, Speed * convertion_const);
 }
 
-void Move_Backwards(float Speed) { // Function for moving backwards
+// Function for moving backwards
+void Move_Backwards(float Speed) {
+  convertion_const = 1023 / 100.0;
   digitalWrite(DIR_Right, LOW);
   digitalWrite(DIR_Left, LOW);
-  Timer3.pwm(PWM_Right, (Speed / 100.0) * 1023);
-  Timer3.pwm(PWM_Left, (Speed / 100.0) * 1023);
+  Timer3.pwm(PWM_Right, (Speed * convertion_const);
+  Timer3.pwm(PWM_Left, (Speed * convertion_const);
 }
 
-void Turn_Right_In_Angle(
-    float Angle) { // Function for turning aroundto the right in specify angle
+// Function for turning around to the right in specify angle
+void Turn_Right_In_Angle(float Angle) {
   Stop();
   int mission = Mission_Number;
   MPU9250Calculate(deltat);
@@ -199,11 +200,14 @@ void Turn_Right_In_Angle(
   } else if (Desired_Angle < 0) {
     Desired_Angle += 360;
   }
+  convertion_const = 1023 / 100.0;
   digitalWrite(DIR_Right, LOW);
   digitalWrite(DIR_Left, HIGH);
-  Timer3.pwm(PWM_Right, (Rotation_Speed / 100.0) * 1023);
-  Timer3.pwm(PWM_Left, (Rotation_Speed / 100.0) * 1023);
-  while (((Yaw <= Desired_Angle - 2) || (Yaw >= Desired_Angle + 2)) &&
+  Timer3.pwm(PWM_Right, Rotation_Speed * convertion_const);
+  Timer3.pwm(PWM_Left, Rotation_Speed * convertion_const);
+  threshold = 2.0;
+  while (((Yaw <= Desired_Angle - threshold) ||
+          (Yaw >= Desired_Angle + threshold)) &&
          (mission == Mission_Number)) {
     noInterrupts();
     Motor_Flag = Motor_Flag_Counter;
@@ -218,8 +222,8 @@ void Turn_Right_In_Angle(
   Stop();
 }
 
-void Turn_Left_In_Angle(
-    float Angle) { // Function for turning around to the left in specify angle
+// Function for turning around to the left in specify angle
+void Turn_Left_In_Angle(float Angle) {
   Stop();
   int mission = Mission_Number;
   MPU9250Calculate(deltat);
@@ -231,11 +235,14 @@ void Turn_Left_In_Angle(
   } else if (Desired_Angle < 0) {
     Desired_Angle += 360;
   }
+  convertion_const = 1023 / 100.0;
   digitalWrite(DIR_Right, HIGH);
   digitalWrite(DIR_Left, LOW);
-  Timer3.pwm(PWM_Right, (Rotation_Speed / 100.0) * 1023);
-  Timer3.pwm(PWM_Left, (Rotation_Speed / 100.0) * 1023);
-  while (((Yaw <= Desired_Angle - 2) || (Yaw >= Desired_Angle + 2)) &&
+  Timer3.pwm(PWM_Right, Rotation_Speed * convertion_const);
+  Timer3.pwm(PWM_Left, Rotation_Speed * convertion_const);
+  threshold = 2.0;
+  while (((Yaw <= Desired_Angle - threshold) ||
+          (Yaw >= Desired_Angle + threshold)) &&
          (mission == Mission_Number)) {
     noInterrupts();
     Motor_Flag = Motor_Flag_Counter;
@@ -250,21 +257,24 @@ void Turn_Left_In_Angle(
   Stop();
 }
 
-void Turn(
-    float Speed_Right,
-    float Speed_Left) { // Function for turning (right or left) while driving
+// Function for turning (right or left) while driving
+void Turn(float Speed_Right, float Speed_Left) {
+  convertion_const = 1023 / 100.0;
   digitalWrite(DIR_Right, HIGH);
   digitalWrite(DIR_Left, HIGH);
-  Timer3.pwm(PWM_Right, (Speed_Right / 100.0) * 1023);
-  Timer3.pwm(PWM_Left, (Speed_Left / 100.0) * 1023);
+  Timer3.pwm(PWM_Right, Speed_Right * convertion_const);
+  Timer3.pwm(PWM_Left, Speed_Left * convertion_const);
 }
 
-void Stop() { // Function for stopping both motors
+// Function for stopping both motors
+void Stop() {
   Timer3.pwm(PWM_Right, 0);
   Timer3.pwm(PWM_Left, 0);
 }
 
 ///////////////////  End mission functions  ///////////////////
+
+// Function for skipping a mission
 void Skip_Mission() {
   noInterrupts();
   Stop();
@@ -273,8 +283,8 @@ void Skip_Mission() {
   interrupts();
 }
 
-void Start_Mission(byte *matrix, int x, int y, int width,
-                   int height) { // Visual indication for start mission
+// Visual indication for start mission
+void Start_Mission(byte *matrix, int x, int y, int width, int height) {
   byte mask = B10000000;
   for (int iy = 0; iy < height; iy++) {
     for (int ix = 0; ix < width; ix++) {
@@ -287,6 +297,8 @@ void Start_Mission(byte *matrix, int x, int y, int width,
 }
 
 ///////////////////  Timers Functions  ///////////////////
+
+// Function to initialize timer1
 void Timer1_isr(void) {
   Timer1_Counter++;
   if (Timer1_Counter >= DIV) {
@@ -295,44 +307,53 @@ void Timer1_isr(void) {
   }
 }
 
+// Function to raise counter
 void dist_counter(void) { dist_cntr++; }
 
 /////////////////// Sensor functions  ///////////////////
+
+// Function to read sensors
 void ReadSensors() {
-  TOF_Distance_Front = 0;
+  // Initial Linearization constants
+  a = 0.0002391473;
+  b = 0.0100251467 TOF_Distance_Front = 0;
   TOF_Distance_Left = 0;
   TOF_Distance_Right = 0;
   US_Distance_Read = 0;
   for (int i = 1; i < 4; i++) {
-    IR_Right_Distance +=
-        (1 / (0.0002391473 * analogRead(IR_Right) - 0.0100251467));
-    IR_Left_Distance +=
-        (1 / (0.0002391473 * analogRead(IR_Left) - 0.0100251467));
+    IR_Right_Distance += (1 / (a * analogRead(IR_Right) - b));
+    IR_Left_Distance += (1 / (a * analogRead(IR_Left) - b));
     US_Distance_Read += analogRead(US_Distance);
   }
   // Output
-  IR_Right_Distance = IR_Right_Distance / 3;
-  IR_Left_Distance = IR_Left_Distance / 3;
+  distance_scale = 3.0;
+  IR_Right_Distance = IR_Right_Distance / distance_scale;
+  IR_Left_Distance = IR_Left_Distance / distance_scale;
   Read_TOF();
-  US_Distance_Read = US_Distance_Read / 3;
+  US_Distance_Read = US_Distance_Read / distance_scale;
 }
 
+// Function to read time of flight sensor
 void Read_TOF() {
   Servo_Motor.write(10);
   delay(1000);
-  TOF_Distance_Right = TOF_Sensor.readRangeContinuousMillimeters() / 10.0;
+  distance_scale = 10.0;
+  TOF_Distance_Right =
+      TOF_Sensor.readRangeContinuousMillimeters() / distance_scale;
   if (TOF_Sensor.timeoutOccurred())
     Serial.print("TIMEOUT");
 
   Servo_Motor.write(85);
   delay(1000);
-  TOF_Distance_Front = TOF_Sensor.readRangeContinuousMillimeters() / 10.0;
+  TOF_Distance_Front =
+      TOF_Sensor.readRangeContinuousMillimeters() / distance_scale;
   if (TOF_Sensor.timeoutOccurred())
     Serial.print("TIMEOUT");
 
   Servo_Motor.write(160);
   delay(1000);
-  TOF_Distance_Left = TOF_Sensor.readRangeContinuousMillimeters() / 10.0;
+  TOF_Distance_Left =
+      TOF_Sensor.readRangeContinuousMillimeters() / distance_scale;
   if (TOF_Sensor.timeoutOccurred())
     Serial.print("TIMEOUT");
 }

@@ -1,4 +1,15 @@
+#include <LEDMatrixDriver.hpp>
+#include <SPI.h>
+#include <Servo.h>
+#include <TimerOne.h>
+#include <TimerThree.h>
+#include <VL53L0X.h>
+#include <Wire.h>
+#include <math.h>
+
 void Mission_2() {
+  /// Code for mission 2
+
   Start_Mission((byte *)&LedMatrix_Mission_2, 0, 0, 8, 8); // Turn on Led matrix
   Serial.println("Start Mission 2");
   Move_Forwards(65); // start driving
@@ -9,7 +20,7 @@ void Mission_2() {
   delay(900);
   MPU9250Calculate(deltat);
   delay(70);
-  float Roll0 = MPU9250_ReturnRoll(); // Refrence values
+  float Roll0 = MPU9250_ReturnRoll(); // Reference values
   float Pitch0 = MPU9250_ReturnPitch();
   Servo_Motor.write(90); // move Servo to front
   float Front_Dist =
@@ -40,7 +51,7 @@ void Mission_2() {
                                                        // front wall
       while (((Roll - Roll0) > 5) && (Mission_Number == 2)) { // If tilting
                                                               // right
-        Turn(20, 100); // Turn right
+        Turn(20, 100);                                        // Turn right
         noInterrupts();
         Motor_Flag = Motor_Flag_Counter;
         Motor_Flag_Counter = false;
@@ -54,7 +65,7 @@ void Mission_2() {
       }
       while (((Roll - Roll0) < -5) && (Mission_Number == 2)) { // If tilting
                                                                // left
-        Turn(100, 20); // Turn left
+        Turn(100, 20);                                         // Turn left
         noInterrupts();
         Motor_Flag = Motor_Flag_Counter;
         Motor_Flag_Counter = false;

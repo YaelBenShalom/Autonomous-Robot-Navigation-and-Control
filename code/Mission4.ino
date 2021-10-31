@@ -1,7 +1,18 @@
+#include <LEDMatrixDriver.hpp>
+#include <SPI.h>
+#include <Servo.h>
+#include <TimerOne.h>
+#include <TimerThree.h>
+#include <VL53L0X.h>
+#include <Wire.h>
+#include <math.h>
+
 void Mission_4() {
+  /// Code for mission 4
+
   float distance_left;  // Value is distance to the left, read from left sensor
                         // [cm]
-  float distance_front; // Value is distance infront, read from forward sensor
+  float distance_front; // Value is distance in front, read from forward sensor
                         // [cm]
   float Speed = 60;
 

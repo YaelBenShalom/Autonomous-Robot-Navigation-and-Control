@@ -1,4 +1,15 @@
+#include <LEDMatrixDriver.hpp>
+#include <SPI.h>
+#include <Servo.h>
+#include <TimerOne.h>
+#include <TimerThree.h>
+#include <VL53L0X.h>
+#include <Wire.h>
+#include <math.h>
+
 void Mission_5() {
+  /// Code for mission 5
+
   MPU9250Calculate(deltat);
   const int nominal_speed = 60;
   const float Pitch0 = MPU9250_ReturnPitch();
@@ -34,9 +45,8 @@ void Mission_5() {
         MPU9250Calculate(deltat);
         Pitch = MPU9250_ReturnPitch();
       }
-      Dist_Down = Dist_DownConst -
-                  dist_cntr * ENCODER_TO_ANGLE *
-                      WHEEL_RADIUS; // ANGLE IN RAD*RADIUS = DISTANCE CROSSED
+      // ANGLE IN RAD*RADIUS = DISTANCE CROSSED
+      Dist_Down = Dist_DownConst - dist_cntr * ENCODER_TO_ANGLE * WHEEL_RADIUS;
       Serial.print("Dist down: \t");
       Serial.println(Dist_Down);
       Serial.print("Pitch: \t");
@@ -44,6 +54,7 @@ void Mission_5() {
     }
     Stop();
     delay(1000);
+
     //************************************
     /*
       Turn_Right(90);//_In_Angle(90); // Rotate the robot in-place in 90 degrees
@@ -65,6 +76,7 @@ void Mission_5() {
       Left (parallel to pole) Servo_Motor.write(0); //"Right" delay(5000);
     */
     //************************************
+
     noInterrupts();
     dist_cntr = 0;
     interrupts();
@@ -72,9 +84,8 @@ void Mission_5() {
     delay(1000);
     Move_Forwards(nominal_speed); // Go towards the wall
     while ((Dist_Wall > 0) && (!Found1)) {
-      Dist_Wall = Dist_WallConst -
-                  dist_cntr * ENCODER_TO_ANGLE *
-                      WHEEL_RADIUS; // ANGLE IN RAD*RADIUS = DISTANCE CROSSED
+      // ANGLE IN RAD*RADIUS = DISTANCE CROSSED
+      Dist_Wall = Dist_WallConst - dist_cntr * ENCODER_TO_ANGLE * WHEEL_RADIUS;
       Serial.println(TOF_Sensor.readRangeContinuousMillimeters());
       if (TOF_Sensor.readRangeContinuousMillimeters() <=
           750) { // [mm] assuming pole distance 250mm || NEED TO MEASUER MAZE TO
@@ -94,15 +105,14 @@ void Mission_5() {
     Servo_Motor.write(80); //"Forward"
     delay(1000);
     Move_Forwards(nominal_speed); // Go towards the pole
-    //************************************
+
     noInterrupts();
     dist_cntr = 0;
     interrupts();
     delay(500);
     while (approach > 0) {
-      approach = approachConst -
-                 dist_cntr * ENCODER_TO_ANGLE *
-                     WHEEL_RADIUS; // ANGLE IN RAD*RADIUS = DISTANCE CROSSED
+      // ANGLE IN RAD*RADIUS = DISTANCE CROSSED
+      approach = approachConst - dist_cntr * ENCODER_TO_ANGLE * WHEEL_RADIUS;
       Serial.println(approach);
     }
     Stop();
@@ -111,7 +121,7 @@ void Mission_5() {
     interrupts();
     int dist = 0;
     delay(500);
-    //************************************
+
     Servo_Motor.write(45);
     while (!Found2) {
       for (int i = 45; i < 135;
@@ -138,7 +148,7 @@ void Mission_5() {
     dist_cntr = 0;
     interrupts();
     delay(500);
-    //************************************
+
     Found2 = false;
     Servo_Motor.write(45);
     while (!Found2) {
@@ -183,7 +193,6 @@ void Mission_5() {
 }
 
 /*
-
   ENVELOPE NEEDED
   1. interrupt that counts encoder click
   2. interrupt that measures tof/ir distances
