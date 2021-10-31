@@ -10,7 +10,7 @@
 
 
 ## Description
-In this project, I build a wheeled robot and programmed it to navigate autonomously through a series of tasks, Using Arduino, motors, encoders and distance sensors.
+In this project, I build a wheeled robot and programmed it to navigate autonomously through a series of tasks, using Arduino, motors, encoders and distance sensors.
 
 ## Overview
 
