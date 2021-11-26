@@ -29,11 +29,12 @@ I used several components to control the robot motion:
 2. Motors & encoders:
     - PMW motor and encoder - One on each rear wheel to activate and control the motion
     - Servo motor - Located on the front of the vehicle and used to rotate the TOF sensor to desired scanning angle
+    - Motor driver (SparkFun Ardumoto 50829)
 3. Sensors
     - IR sensor - One on each side of the vehicle to measure side distance
-    - TOF (Time of Flight) sensor - Assembled on the servo motor to scan the surrounding space
+    - Time of Flight sensor (Adafruit VL53L0X) - Assembled on the servo motor to scan the surrounding space
     - US (ultrasonik) sensor - Located on the top of the vehicle to measure distance from objects above the vehicle
-    - IMU 9250 (9 DOF) - Measures orientation (Gyroscope) and acceleration (Accelerometer). Compass is not in use
+    - IMU (MPU-9250) - 9-axis (gyro, accelerometer, compass) MEMS motion tracking device
 4. Led matrix - Indicates mission number and mission success/fail
 
 The system components:
